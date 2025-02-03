@@ -8,12 +8,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "nodemon server.js",
     "devStart2": "nodemon ./AuthServer.js",
-    "runboth": "concurrently \"npm run devStart\" \"npm run devStart2\""
+    "runboth": "concurrently \"npm run devStart\" \"npm run devStart2\"",
+    "devStart3": "nodemon ./index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1692.0",
     "body-parser": "^1.20.3",
     "concurrently": "^9.1.2",
     "cors": "^2.8.5",
