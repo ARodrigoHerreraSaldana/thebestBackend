@@ -1,4 +1,5 @@
-import { SecretsManager } from 'aws-sdk';
+import pkg from 'aws-sdk';
+const { SecretsManager } = pkg;
 let SecretsManagerClient = new SecretsManager({
     region: 'us-east-1',
   });
@@ -10,4 +11,4 @@ let SecretsManagerClient = new SecretsManager({
     .promise();
 
     const SecretsManagerResponse = JSON.parse(SecretsManagerResult.SecretString);
-    console.log(SecretsManagerResponse)
+    console.log('x', SecretsManagerResponse)
