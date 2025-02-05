@@ -2,6 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import {ACCESS_TOKEN_SECRET,REFRESH_TOKEN_SECRET} from './index.js'
 //For the .env
 import cors from "cors";
 //limit the number of request per Ip
@@ -13,7 +14,6 @@ const limiter=rateLimit({
     max:50, //number of requests
     message:"To many requests"
 });
-
 app.use(bodyParser.json())
 app.use(limiter);
 
@@ -22,7 +22,14 @@ let refreshTokens = []
 
 //this function generates a new Token
 function generateAccessToken(user){
-    return jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn:'30s'})
+    if(ACCESS_TOKEN_SECRET==undefined){
+        return null
+    }
+    else
+    {
+        return jwt.sign(user,ACCESS_TOKEN_SECRET,{expiresIn:'30s'})
+    }
+    
 }
 
 //this function deletes one token from the refresh tokens array
@@ -37,7 +44,11 @@ app.post('/login',(req,res)=>{
 const username=req.body.username; 
 const user = {name:username}
 const accessToken=generateAccessToken(user)
-const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+if(REFRESH_TOKEN_SECRET==undefined)
+{
+    return res.sendStatus(401);
+}
+const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET)
 
 //push to the database
 refreshTokens.push(refreshToken)
@@ -51,7 +62,8 @@ app.post('/token',(req,res) =>{
     const refreshToken = req.body.token
     if(refreshToken==null) return res.sendStatus(401);
     if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
-    jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET, (err,user) => 
+    if(REFRESH_TOKEN_SECRET==undefined) return res.sendStatus(403);
+    jwt.verify(refreshToken,REFRESH_TOKEN_SECRET, (err,user) => 
     {
      if(err) return res.sendStatus(403)
         const accessToken = generateAccessToken({name:user.name})

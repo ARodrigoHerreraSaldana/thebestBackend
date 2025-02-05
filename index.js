@@ -11,4 +11,5 @@ let SecretsManagerClient = new SecretsManager({
     .promise();
 
     const SecretsManagerResponse = JSON.parse(SecretsManagerResult.SecretString);
-    console.log('x', SecretsManagerResponse)
+    const{ACCESS_TOKEN_SECRET,REFRESH_TOKEN_SECRET} = SecretsManagerResponse
+export {ACCESS_TOKEN_SECRET,REFRESH_TOKEN_SECRET}
