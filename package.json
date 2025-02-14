@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devStart": "nodemon server.js",
-    "devStart2": "nodemon ./AuthServer.js",
+    "devStart": "nodemon --delay 500ms server.mjs",
+    "devStart2": "nodemon --delay 500ms ./AuthServer.mjs",
     "runboth": "concurrently \"npm run devStart\" \"npm run devStart2\"",
     "devStart3": "nodemon ./index.js"
   },
@@ -18,14 +18,18 @@
     "aws-sdk": "^2.1692.0",
     "body-parser": "^1.20.3",
     "concurrently": "^9.1.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
-    "pm2": "^5.4.3"
+    "mysql2": "^3.12.0",
+    "pm2": "^5.4.3",
+    "sequelize": "^6.11.0"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
     "nodemon": "^3.1.9"
   }
 }

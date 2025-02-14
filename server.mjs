@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 //limit the number of request per Ip
 import rateLimit from "express-rate-limit"; 
+import authenticateToken from './middleware/authenticateToken.js'
 dotenv.config()
 const app = express();
 const limiter=rateLimit({
@@ -35,29 +36,27 @@ res.json(posts.filter(post=>post.username===req.user.name))
 })
 
 
-app.post('/token', (req,res) => {
-    const refreshToken = req.body.token
-})
-//middleware
-function authenticateToken(req,res,next){
- 
-    const authHeader=req.headers['authorization']
-    console.log(authHeader)
-    const token = authHeader && authHeader.split(' ')[1]
-    console.log(token)
-    if(token == null) return res.sendStatus(401)
-    jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>
-{
-    if(err) return res.sendStatus(403)
-        req.user=user
-    next()
-})
-
-}
-
-const server=app.listen(3003)
+const server=app.listen(3004)
 process.on("SIGTERM", async () => {
     if (server) {
       server.close(() => {});
     }
+  });
+  process.once('SIGUSR2', function () {
+    console.log('killed')
+    if (server) {
+        server.close(() => {});
+      }
+    process.kill(process.pid, 'SIGUSR2');
+
+  });
+  
+  process.on('SIGINT', function () {
+    // this is only called on ctrl+c, not restart
+    console.log('killed2')
+    if (server) {
+        server.close(() => {});
+      }
+    process.kill(process.pid, 'SIGINT');
+
   });

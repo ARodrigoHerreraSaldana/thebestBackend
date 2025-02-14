@@ -3,11 +3,17 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import {ACCESS_TOKEN_SECRET,REFRESH_TOKEN_SECRET} from './index.js'
+import generateAccessToken from "./middleware/generateToken.js";
+import routerLogin from "./routes/login.js";
 //For the .env
 import cors from "cors";
 //limit the number of request per Ip
 import rateLimit from "express-rate-limit"; 
+import connection from "./src/db.js";
+import routerToken from "./routes/token.js";
+import cookieParser from 'cookie-parser';
 dotenv.config()
+
 const app = express();
 const limiter=rateLimit({
     windowMs:15*60*1000, //in miliseconds
@@ -16,60 +22,20 @@ const limiter=rateLimit({
 });
 app.use(bodyParser.json())
 app.use(limiter);
+app.use(cookieParser());
+app.use('/login',routerLogin);
+app.use('/token',routerToken);
 
-//store refreshTokens
-let refreshTokens = []
 
-//this function generates a new Token
-function generateAccessToken(user){
-    if(ACCESS_TOKEN_SECRET==undefined){
-        return null
-    }
-    else
-    {
-        return jwt.sign(user,ACCESS_TOKEN_SECRET,{expiresIn:'30s'})
-    }
-    
-}
 
-//this function deletes one token from the refresh tokens array
 app.delete('/logout', (req,res)=>
 {
 refreshTokens= refreshTokens.filter(token => token !== req.body.token)
 res.sendStatus(204)
 })
 
-app.post('/login',(req,res)=>{
-//authenticate user
-const username=req.body.username; 
-const user = {name:username}
-const accessToken=generateAccessToken(user)
-if(REFRESH_TOKEN_SECRET==undefined)
-{
-    return res.sendStatus(401);
-}
-const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET)
-
-//push to the database
-refreshTokens.push(refreshToken)
-res.json({accessToken:accessToken, refreshToken:refreshToken})
-})
 
 
-
-app.post('/token',(req,res) =>{
-    console.log(refreshTokens)
-    const refreshToken = req.body.token
-    if(refreshToken==null) return res.sendStatus(401);
-    if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
-    if(REFRESH_TOKEN_SECRET==undefined) return res.sendStatus(403);
-    jwt.verify(refreshToken,REFRESH_TOKEN_SECRET, (err,user) => 
-    {
-     if(err) return res.sendStatus(403)
-        const accessToken = generateAccessToken({name:user.name})
-    res.json(({accessToken:accessToken}))
-    })
-})
 
 
 const server=app.listen(4000)
@@ -77,4 +43,22 @@ process.on("SIGTERM", async () => {
     if (server) {
       server.close(() => {});
     }
+  });
+  process.once('SIGUSR2', function () {
+    console.log('killed')
+    if (server) {
+        server.close(() => {});
+      }
+    process.kill(process.pid, 'SIGUSR2');
+
+  });
+  
+  process.on('SIGINT', function () {
+    // this is only called on ctrl+c, not restart
+    console.log('killed2')
+    if (server) {
+        server.close(() => {});
+      }
+    process.kill(process.pid, 'SIGINT');
+
   });
