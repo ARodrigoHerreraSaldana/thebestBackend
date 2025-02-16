@@ -8,6 +8,7 @@ import cors from "cors";
 //limit the number of request per Ip
 import rateLimit from "express-rate-limit"; 
 import authenticateToken from './middleware/authenticateToken.js'
+import cookieParser from 'cookie-parser';
 dotenv.config()
 const app = express();
 const limiter=rateLimit({
@@ -15,11 +16,11 @@ const limiter=rateLimit({
     max:70, //number of requests
     message:"To many requests"
 });
-
+app.use(cookieParser());
 
 const posts=[
     {
-        username:'Kyle',
+        username:'testmail2@gmail.com',
         title:'Post 1'
     },
     {
@@ -32,11 +33,12 @@ app.use(limiter);
 
 
 app.get('/posts',authenticateToken,(req,res)=>{
-res.json(posts.filter(post=>post.username===req.user.name))
+  console.log('xx')
+res.json(posts.filter(post=>post.username===req.data.mail))
 })
 
 
-const server=app.listen(3004)
+const server=app.listen(3003)
 process.on("SIGTERM", async () => {
     if (server) {
       server.close(() => {});

@@ -22,10 +22,10 @@ routerToken.post("/", async (req, res) => {
     // Verify the refresh token
     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, data) => {
       if (err) return res.sendStatus(403); 
-      console.log(user);
       // Generate a new access token
       const accessToken = generateAccessToken({ mail : data.mail });
-      res.json({ accessToken });
+      res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+      res.status(200).json({ accessToken });
     });
 
   } catch (error) {

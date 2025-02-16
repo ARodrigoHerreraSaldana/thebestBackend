@@ -1,16 +1,13 @@
 import {ACCESS_TOKEN_SECRET,REFRESH_TOKEN_SECRET} from '../index.js'
 import jwt from "jsonwebtoken";
 
-export function authenticateToken(req,res,next){
-    const authHeader=req.headers['authorization']
-    console.log(authHeader)
-    const token = authHeader && authHeader.split(' ')[1]
-    console.log(token)
-    if(token == null) return res.sendStatus(401)
-    jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>
+export default function authenticateToken(req,res,next){
+    const token = req.cookies.accessToken;
+    if(!token) return res.sendStatus(401)
+    jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,data)=>
 {
     if(err) return res.sendStatus(403)
-        req.user=user
+        req.data=data
     next()
 })
 
