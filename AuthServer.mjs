@@ -12,6 +12,7 @@ import rateLimit from "express-rate-limit";
 import connection from "./src/db.js";
 import routerToken from "./routes/token.js";
 import cookieParser from 'cookie-parser';
+import routerLogout from "./routes/logout.js";
 dotenv.config()
 
 const app = express();
@@ -23,16 +24,17 @@ const limiter=rateLimit({
 app.use(bodyParser.json())
 app.use(limiter);
 app.use(cookieParser());
+app.use(cors())
 app.use('/login',routerLogin);
 app.use('/token',routerToken);
+app.use('/logOut',routerLogout)
 
 
-
-app.delete('/logout', (req,res)=>
-{
-refreshTokens= refreshTokens.filter(token => token !== req.body.token)
-res.sendStatus(204)
-})
+// app.delete('/logout', (req,res)=>
+// {
+// refreshTokens= refreshTokens.filter(token => token !== req.body.token)
+// res.sendStatus(204)
+// })
 
 
 

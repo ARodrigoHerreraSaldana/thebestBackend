@@ -8,24 +8,32 @@ const routerLogin = express.Router();
 
 routerLogin.post("/", async (req, res) => {
   try {
-    if (!REFRESH_TOKEN_SECRET) return res.sendStatus(401).json({ message: "Internal Problems" });
+    if (!REFRESH_TOKEN_SECRET) return res.status(401).json({ message: "Internal Problems" });
     //check the username and password
     const [results, metadata] = await sequelize.query(
-      "select checkuser(:mail,:password) as Result",
+      "select checkuser(:email,:password) as Result",
       {
-        replacements: { mail: req.body.mail, password: req.body.password },
+        replacements: { email: req.body.email, password: req.body.password },
         type: sequelize.QueryTypes.SELECT,
       }
     );
 
     //if the user can log in
     if (results.Result == 1) {
+
+      const results= await sequelize.query( 
+        "UPDATE users SET updatedAt = :date WHERE email = :email",
+        {
+          replacements:{date:new Date().toISOString(), email:req.body.email},
+          type:sequelize.QueryTypes.UPDATE
+      });
+      console.log('results',results)
       //work with token
       const data = { mail: req.body.mail };
       const accessToken = generateAccessToken(data);
       const refreshToken = jwt.sign(data, REFRESH_TOKEN_SECRET);
       if (!refreshToken  || !accessToken == null) {
-        return res.sendStatus(401).json({ message: "Internal Problems" });
+        return res.status(401).json({ message: "Internal Problems" });
       }
       //push to the database the access Token
       await insertRefreshToken(refreshToken);
@@ -38,12 +46,12 @@ routerLogin.post("/", async (req, res) => {
       return res.status(200).json({ message: "Wrong password" });
     }
   } catch (error) {
-    console.log("x");
-    console.error("error", error);
     res.status(403).json({ message: error.message });
+    console.error(error)
   } finally {
-    console.log("sss");
   }
 });
 
+
+  
 export default routerLogin;

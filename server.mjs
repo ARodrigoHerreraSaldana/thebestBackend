@@ -9,6 +9,8 @@ import cors from "cors";
 import rateLimit from "express-rate-limit"; 
 import authenticateToken from './middleware/authenticateToken.js'
 import cookieParser from 'cookie-parser';
+import routerRegister from "./routes/register.js";
+import routerGetUsers from "./routes/getUsers.js";
 dotenv.config()
 const app = express();
 const limiter=rateLimit({
@@ -17,19 +19,27 @@ const limiter=rateLimit({
     message:"To many requests"
 });
 app.use(cookieParser());
-
-const posts=[
-    {
-        username:'testmail2@gmail.com',
-        title:'Post 1'
-    },
-    {
-        username:'Jim',
-        title:'Post 2'
-    },
-]
 app.use(bodyParser.json())
 app.use(limiter);
+app.use(cors())
+
+
+
+
+const posts=[
+  {
+      username:'testmail2@gmail.com',
+      title:'Post 1'
+  },
+  {
+      username:'Jim',
+      title:'Post 2'
+  },
+]
+
+//Routes
+app.use('/register',routerRegister)
+app.use('/lastLogin',routerGetUsers)
 
 
 app.get('/posts',authenticateToken,(req,res)=>{
