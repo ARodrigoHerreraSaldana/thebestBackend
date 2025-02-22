@@ -15,7 +15,7 @@ routerLogout.delete("/", async (req, res) => {
         { isActive: 0 ,updatedAt:new Date().toISOString() }, 
         { where: { token: refreshToken } }
       );
-    res.status(200).json({message:refreshToken});
+    res.status(200).json({message:'token inactive'});
 
   } catch (error) {
     res.status(403).json({ message: error.message });

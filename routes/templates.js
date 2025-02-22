@@ -12,8 +12,7 @@ routerPostTemplates.post('/', authenticateToken, async(req, res)=>
 {   
     try
     {  
-            console.log('mail',req.data.mail)
-            const result =await insertTemplates(req.body.obj)
+            const result =await insertTemplates(req.data.mail,req.body.obj)
             console.log(result);
             return res.status(200).json({ message: 'hola' });
     }

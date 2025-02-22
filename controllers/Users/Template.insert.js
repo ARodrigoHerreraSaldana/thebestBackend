@@ -1,9 +1,9 @@
 import Templates from "../../models/Templates.model.js";
 
-export const insertTemplates = async (obj) => {
+export const insertTemplates = async (mail,obj) => {
     try {
       const newTemplates= await Templates.create({ 
-        author:obj.author,
+        author:mail,
         uuid:obj.uuid,
         title:obj.title,
         description:obj.description,

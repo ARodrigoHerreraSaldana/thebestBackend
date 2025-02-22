@@ -24,7 +24,7 @@ const limiter=rateLimit({
 app.use(bodyParser.json())
 app.use(limiter);
 app.use(cookieParser());
-app.use(cors())
+app.use(cors({ origin: true, credentials: true }));
 app.use('/login',routerLogin);
 app.use('/token',routerToken);
 app.use('/logOut',routerLogout)
