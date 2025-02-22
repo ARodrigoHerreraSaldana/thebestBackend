@@ -10,11 +10,11 @@ const routerLogout = express.Router();
 routerLogout.delete("/", async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.sendStatus(401); 
     const result = await Tokens.update(
         { isActive: 0 ,updatedAt:new Date().toISOString() }, 
         { where: { token: refreshToken } }
       );
-    if (!refreshToken) return res.sendStatus(401); 
     res.status(200).json({message:refreshToken});
 
   } catch (error) {

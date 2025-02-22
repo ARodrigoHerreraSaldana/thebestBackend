@@ -29,7 +29,8 @@ routerLogin.post("/", async (req, res) => {
       });
       console.log('results',results)
       //work with token
-      const data = { mail: req.body.mail };
+      const data = { mail: req.body.email };
+      console.log('aqui', data)
       const accessToken = generateAccessToken(data);
       const refreshToken = jwt.sign(data, REFRESH_TOKEN_SECRET);
       if (!refreshToken  || !accessToken == null) {

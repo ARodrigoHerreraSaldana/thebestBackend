@@ -11,6 +11,7 @@ import authenticateToken from './middleware/authenticateToken.js'
 import cookieParser from 'cookie-parser';
 import routerRegister from "./routes/register.js";
 import routerGetUsers from "./routes/getUsers.js";
+import routerPostTemplates from "./routes/templates.js";
 dotenv.config()
 const app = express();
 const limiter=rateLimit({
@@ -38,12 +39,14 @@ const posts=[
 ]
 
 //Routes
+//register for first time
 app.use('/register',routerRegister)
 app.use('/lastLogin',routerGetUsers)
-
+//create templates
+app.use('/templates',routerPostTemplates)
 
 app.get('/posts',authenticateToken,(req,res)=>{
-  console.log('xx')
+  console.log('xx',req.data.mail)
 res.json(posts.filter(post=>post.username===req.data.mail))
 })
 
