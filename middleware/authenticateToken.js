@@ -6,11 +6,8 @@ export default function authenticateToken(req,res,next){
     if(!token) return res.sendStatus(401)
     jwt.verify(token,ACCESS_TOKEN_SECRET,(err,data)=>
 {
-    console.log(err)
-    console.log(data)
     if(err) return res.sendStatus(403)
         req.data=data
-    console.log('req.data',req.data)
     next()
 
 })
