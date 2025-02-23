@@ -17,7 +17,7 @@ dotenv.config()
 const app = express();
 const limiter=rateLimit({
     windowMs:15*60*1000, //in miliseconds
-    max:70, //number of requests
+    max:150, //number of requests
     message:"To many requests"
 });
 app.use(cookieParser());
