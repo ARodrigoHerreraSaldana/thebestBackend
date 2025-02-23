@@ -22,12 +22,7 @@ const limiter=rateLimit({
 app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(limiter);
-app.use(cors(
-  {
-    origin: 'http://localhost:5173/',
-  }
-))
-
+app.use(cors({ origin: true, credentials: true }));
 
 
 

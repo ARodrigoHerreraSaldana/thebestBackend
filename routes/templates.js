@@ -13,8 +13,8 @@ routerPostTemplates.post('/', authenticateToken, async(req, res)=>
     try
     {  
             const result =await insertTemplates(req.data.mail,req.body.obj)
-            console.log(result);
-            return res.status(200).json({ message: 'hola' });
+            console.log('result', result);
+            return res.status(200).json({ message: 'Template added to the database' });
     }
     catch(error)
     {
