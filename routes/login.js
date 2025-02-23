@@ -39,8 +39,8 @@ routerLogin.post("/", async (req, res) => {
       //push to the database the access Token
       await insertRefreshToken(refreshToken);
       //push the acces and refresh cookie into a cookie
-      res.cookie('accessToken', accessToken, { httpOnly: true, secure: true,  path: "/", sameSite: 'none',  domain:'https://rodrigofrontend.it.com/dashboard'     });
-      res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true,  path: "/", sameSite: 'none',domain:'https://rodrigofrontend.it.com/dashboard' });
+      res.cookie('accessToken', accessToken, { httpOnly: true, secure: true,  path: "/", sameSite: "lax",  domain:'https://rodrigofrontend.it.com/dashboard'     });
+      res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true,  path: "/", sameSite: "lax",domain:'https://rodrigofrontend.it.com/dashboard' });
       res.status(200).json({message: "User authenticated succesfully"
       });
     } else {
