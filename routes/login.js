@@ -41,7 +41,7 @@ routerLogin.post("/", async (req, res) => {
       //push the acces and refresh cookie into a cookie
       res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
       res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
-      res.status(200).json({message: "User authenticated succesfully",accessToken: accessToken, refreshToken: refreshToken,
+      res.status(200).json({message: "User authenticated succesfully"
       });
     } else {
       return res.status(200).json({ message: "Wrong password" });
