@@ -10,6 +10,7 @@ const Templates = sequelize.define("templates", {
   uuid: {
     type: DataTypes.STRING(50),
     allowNull: false,
+    unique: true,
   },
   title: {
     type: DataTypes.STRING(50),
@@ -38,51 +39,51 @@ const Templates = sequelize.define("templates", {
   },
   question2: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
   },
   answer2: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
   },
   multianswer2: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   type2: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: true,
   },
   question3: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
   },
   answer3: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
   },
   multianswer3: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   type3: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: true,
   },
   question4: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
   },
   answer4: {
     type: DataTypes.STRING(50),
-    allowNull: false,
+    allowNull: true,
   },
   multianswer4: {
     type: DataTypes.STRING(100),
-    allowNull: false,
+    allowNull: true,
   },
   type4: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: true,
   },
 });
 
