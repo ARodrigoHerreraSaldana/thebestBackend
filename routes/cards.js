@@ -6,16 +6,18 @@ import { insertRefreshToken } from "../controllers/Users/Token.insert.js";
 import sequelize from "../src/dbsequelize.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import { insertTemplates } from "../controllers/Users/Template.insert.js";
-const routerPostTemplates = express.Router();
+import { getCards } from "../controllers/Users/Template.find.cards.js";
+const routerCards = express.Router();
 
-routerPostTemplates.post('/', authenticateToken, async(req, res)=>
+routerCards.get('/', authenticateToken, async(req, res)=>
 {   
     try
     {  
-            const result =await insertTemplates(req.data.mail,req.body.obj)
+            
+            const result =await getCards()
             if(!result) return res.status(400).json({message:'Operation was not possible'})
+            return res.status(200).json({ message: result });
 
-            return res.status(200).json({ message: 'Template added to the database' });
     }
     catch(error)
     {
@@ -24,8 +26,7 @@ routerPostTemplates.post('/', authenticateToken, async(req, res)=>
     }
     finally
     {
-        console.log('xxxx')
     }
 })
 
-export default routerPostTemplates;
+export default routerCards;

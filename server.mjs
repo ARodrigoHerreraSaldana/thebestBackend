@@ -12,6 +12,7 @@ import cookieParser from 'cookie-parser';
 import routerRegister from "./routes/register.js";
 import routerGetUsers from "./routes/getUsers.js";
 import routerPostTemplates from "./routes/templates.js";
+import routerCards from "./routes/cards.js";
 dotenv.config()
 const app = express();
 const limiter=rateLimit({
@@ -48,6 +49,8 @@ app.get('/posts',authenticateToken,(req,res)=>{
   console.log('xx',req.data.mail)
 res.json(posts.filter(post=>post.username===req.data.mail))
 })
+
+app.use('/cards',routerCards)
 
 
 const server=app.listen(3003)
