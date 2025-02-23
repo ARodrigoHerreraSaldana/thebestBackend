@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 app.use('/login',routerLogin);
 app.use('/token',routerToken);
-app.use('/logOut',routerLogout)
+app.use('/logout',routerLogout)
 
 
 // app.delete('/logout', (req,res)=>
