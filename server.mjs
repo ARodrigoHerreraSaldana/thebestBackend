@@ -13,6 +13,7 @@ import routerRegister from "./routes/register.js";
 import routerGetUsers from "./routes/getUsers.js";
 import routerPostTemplates from "./routes/templates.js";
 import routerCards from "./routes/cards.js";
+import routerPostAnswers from "./routes/answers.js";
 dotenv.config()
 const app = express();
 const limiter=rateLimit({
@@ -51,7 +52,7 @@ res.json(posts.filter(post=>post.username===req.data.mail))
 })
 
 app.use('/cards',routerCards)
-
+app.use('/answers',routerPostAnswers)
 
 const server=app.listen(3003)
 process.on("SIGTERM", async () => {
