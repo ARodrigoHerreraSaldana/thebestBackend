@@ -7,6 +7,7 @@ import sequelize from "../src/dbsequelize.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import { insertTemplates } from "../controllers/Users/Template.insert.js";
 import { getCards } from "../controllers/Users/Template.find.cards.js";
+import { getCard } from "../controllers/Users/Template.find.card.js";
 const routerCards = express.Router();
 
 routerCards.get('/', authenticateToken, async(req, res)=>
@@ -28,5 +29,25 @@ routerCards.get('/', authenticateToken, async(req, res)=>
     {
     }
 })
+
+routerCards.post('/uuid', authenticateToken, async(req, res)=>
+    {   
+        try
+        {          
+                const result =await getCard(req.body.uuid)
+                console.log(result)
+                if(!result) return res.status(400).json({message:'Operation was not possible'})
+                return res.status(200).json({ message: result });
+    
+        }
+        catch(error)
+        {
+            console.error(error)
+            return res.status(400).json({ message: error });
+        }
+        finally
+        {
+        }
+    })
 
 export default routerCards;
