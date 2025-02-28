@@ -5,20 +5,19 @@ import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../index.js";
 import { insertRefreshToken } from "../controllers/Users/Token.insert.js";
 import sequelize from "../src/dbsequelize.js";
 import authenticateToken from "../middleware/authenticateToken.js";
-import { insertTemplates } from "../controllers/Users/Template.insert.js";
-import { getCards } from "../controllers/Users/Template.find.cards.js";
-import { getCard } from "../controllers/Users/Template.find.card.js";
-const routerCards = express.Router();
+import { insertAnswer } from "../controllers/Users/Answer.insert.js";
+import { getAllAswers } from "../controllers/Users/Answer.findall.js";
+const routerPostAnswers = express.Router();
 
-routerCards.get('/', authenticateToken, async(req, res)=>
+routerPostAnswers.post('/', authenticateToken, async(req, res)=>
 {   
+    console.log(req.body.obj)
     try
     {  
-            
-            const result =await getCards()
+            const result =await insertAnswer(req.data.mail,req.body.obj)
             if(!result) return res.status(400).json({message:'Operation was not possible'})
-            return res.status(200).json({ message: result });
 
+            return res.status(200).json({ message: 'Answer added to the database' });
     }
     catch(error)
     {
@@ -27,18 +26,20 @@ routerCards.get('/', authenticateToken, async(req, res)=>
     }
     finally
     {
+        console.log('xxxx')
     }
 })
 
-routerCards.post('/uuid', authenticateToken, async(req, res)=>
+
+routerPostAnswers.get('/', authenticateToken, async(req, res)=>
     {   
+        console.log(req.body.obj)
         try
-        {          
-                const result =await getCard(req.body.uuid)
-                console.log(result)
+        {  
+                const result =await getAllAswers()
                 if(!result) return res.status(400).json({message:'Operation was not possible'})
-                return res.status(200).json({ message: result });
     
+                return res.status(200).json({ message: result });
         }
         catch(error)
         {
@@ -47,7 +48,7 @@ routerCards.post('/uuid', authenticateToken, async(req, res)=>
         }
         finally
         {
+            console.log('xxxx')
         }
     })
-
-export default routerCards;
+export default routerPostAnswers;
