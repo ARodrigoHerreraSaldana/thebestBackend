@@ -9,6 +9,6 @@ export default function generateAccessToken(data){
     else
     {
         //create a token
-        return jwt.sign(data,ACCESS_TOKEN_SECRET,{expiresIn:'3000s'})
+        return jwt.sign(data,ACCESS_TOKEN_SECRET,{expiresIn:'8000s'})
     }
 }
