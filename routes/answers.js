@@ -6,6 +6,7 @@ import { insertRefreshToken } from "../controllers/Users/Token.insert.js";
 import sequelize from "../src/dbsequelize.js";
 import authenticateToken from "../middleware/authenticateToken.js";
 import { insertAnswer } from "../controllers/Users/Answer.insert.js";
+import { getAllAswers } from "../controllers/Users/Answer.findall.js";
 const routerPostAnswers = express.Router();
 
 routerPostAnswers.post('/', authenticateToken, async(req, res)=>
@@ -28,4 +29,26 @@ routerPostAnswers.post('/', authenticateToken, async(req, res)=>
         console.log('xxxx')
     }
 })
+
+
+routerPostAnswers.get('/', authenticateToken, async(req, res)=>
+    {   
+        console.log(req.body.obj)
+        try
+        {  
+                const result =await getAllAswers()
+                if(!result) return res.status(400).json({message:'Operation was not possible'})
+    
+                return res.status(200).json({ message: result });
+        }
+        catch(error)
+        {
+            console.error(error)
+            return res.status(400).json({ message: error });
+        }
+        finally
+        {
+            console.log('xxxx')
+        }
+    })
 export default routerPostAnswers;
