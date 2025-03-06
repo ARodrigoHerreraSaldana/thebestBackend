@@ -121,7 +121,7 @@ app.post("/Register", async function (req, res) {
   // Create Contact associated with Account
   const contact = await conn.sobject('Contact').create({
     LastName: req.body.LastName,
-    FirstName: req.body.LastName,
+    FirstName: req.body.firstName,
     Email:req.body.Email,
     Title: req.body.Title,
     MobilePhone:req.body.Telephone,
