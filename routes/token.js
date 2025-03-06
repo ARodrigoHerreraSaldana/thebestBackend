@@ -13,7 +13,7 @@ routerToken.post("/", async (req, res) => {
     // Access the cookies
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.sendStatus(401); 
-    console.log(refreshToken);
+    
 
     // Find the token in the database
     let result = await findToken(refreshToken);
@@ -32,7 +32,7 @@ routerToken.post("/", async (req, res) => {
     console.error("Error:", error);
     res.status(403).json({ message: error.message }); // Respond with the error message
   } finally {
-    console.log("Request processed");
+    
   }
 });
 

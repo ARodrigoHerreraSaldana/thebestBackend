@@ -38,6 +38,12 @@ const Users = sequelize.define("users", {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
+  salesForcemail:{
+    type: DataTypes.STRING(128),
+    allowNull: true,
+    unique: true
+  },
+
 });
 
 (async () => {

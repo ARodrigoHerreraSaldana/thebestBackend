@@ -24,7 +24,7 @@ routerGetUsers.get('/', async(req, res)=>
     }
     finally
     {
-        console.log('xxxx')
+        
     }
 })
 

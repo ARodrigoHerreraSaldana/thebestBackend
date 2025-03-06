@@ -11,7 +11,7 @@ const routerPostAnswers = express.Router();
 
 routerPostAnswers.post('/', authenticateToken, async(req, res)=>
 {   
-    console.log(req.body.obj)
+    
     try
     {  
             const result =await insertAnswer(req.data.mail,req.body.obj)
@@ -26,14 +26,14 @@ routerPostAnswers.post('/', authenticateToken, async(req, res)=>
     }
     finally
     {
-        console.log('xxxx')
+        
     }
 })
 
 
 routerPostAnswers.get('/', authenticateToken, async(req, res)=>
     {   
-        console.log(req.body.obj)
+        
         try
         {  
                 const result =await getAllAswers()
@@ -48,7 +48,7 @@ routerPostAnswers.get('/', authenticateToken, async(req, res)=>
         }
         finally
         {
-            console.log('xxxx')
+            
         }
     })
 export default routerPostAnswers;

@@ -24,7 +24,7 @@ routerPostTemplates.post('/', authenticateToken, async(req, res)=>
     }
     finally
     {
-        console.log('xxxx')
+        
     }
 })
 

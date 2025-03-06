@@ -8,7 +8,7 @@ const routerRegister = express.Router();
 
 routerRegister.post('/', async(req, res)=>
 {   
-    console.log(req.body);
+    
     if(!req.body) return res.status(400).json({ message: "Your fields can not be empty" });
     const{firstName,email,lastName, occupation,password} = req.body
     if(!firstName||!email||!lastName||!occupation||!password) return res.status(403).json({message:'Your fields can not be emptyy'})
@@ -29,7 +29,7 @@ routerRegister.post('/', async(req, res)=>
     }
     finally
     {
-        console.log('xxxx')
+        
     }
 })
 

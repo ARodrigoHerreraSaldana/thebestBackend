@@ -1,7 +1,7 @@
 import Answers from "../../models/Answers.model.js";
 
 export const insertAnswer = async (mail,obj) => {
-    console.log('mail','obj',mail,obj)
+    
     try {
       const newTemplates= await Answers.create({ 
         uuid:obj.uuid,
