@@ -14,6 +14,7 @@ import routerGetUsers from "./routes/getUsers.js";
 import routerPostTemplates from "./routes/templates.js";
 import routerCards from "./routes/cards.js";
 import routerPostAnswers from "./routes/answers.js";
+import routerSalesForce from "./routes/salesforce.js";
 dotenv.config()
 const app = express();
 const limiter=rateLimit({
@@ -47,12 +48,13 @@ app.use('/lastLogin',routerGetUsers)
 app.use('/templates',routerPostTemplates)
 
 app.get('/posts',authenticateToken,(req,res)=>{
-  console.log('xx',req.data.mail)
+  
 res.json(posts.filter(post=>post.username===req.data.mail))
 })
 
 app.use('/cards',routerCards)
 app.use('/answers',routerPostAnswers)
+app.use('/salesForce',routerSalesForce)
 
 const server=app.listen(3003)
 process.on("SIGTERM", async () => {

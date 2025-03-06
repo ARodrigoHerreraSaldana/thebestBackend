@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 export default function authenticateToken(req,res,next){
     const token = req.cookies.accessToken;
+    
     if(!token) return res.sendStatus(401)
     jwt.verify(token,ACCESS_TOKEN_SECRET,(err,data)=>
 {

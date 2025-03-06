@@ -35,7 +35,7 @@ routerCards.post('/uuid', authenticateToken, async(req, res)=>
         try
         {          
                 const result =await getCard(req.body.uuid)
-                console.log(result)
+                
                 if(!result) return res.status(400).json({message:'Operation was not possible'})
                 return res.status(200).json({ message: result });
     
